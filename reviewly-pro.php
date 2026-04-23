@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Reviewly Pro
- * Plugin URI:  https://github.com/yourusername/reviewly-pro
+ * Plugin URI:  https://github.com/syedmaasif/reviewly-pro
  * Description: A fully customizable review collection plugin with multiple UI themes, custom fields, and a powerful dashboard. Works on any WordPress site — services, hospitals, WooCommerce, blogs, and more.
  * Version:     1.0.0
- * Author:      Your Name
- * Author URI:  https://yourwebsite.com
+ * Author:      syedmaasif
+ * Author URI:  https://profiles.wordpress.org/syedmaasif/
  * License:     GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: reviewly-pro
