@@ -117,7 +117,13 @@ class Reviewly_Admin {
         // Recent reviews
         $recent = get_posts( [ 'post_type' => 'rvly_review', 'post_status' => [ 'publish', 'pending' ], 'posts_per_page' => 5 ] );
 
-        $settings = Reviewly_Settings::get();
+        $settings  = Reviewly_Settings::get();
+        // Prefix vars for PrefixAllGlobals compliance in the view.
+        $rvly_settings  = $settings;
+        $rvly_published = $published;
+        $rvly_pending   = $pending;
+        $rvly_avg       = $avg;
+        $rvly_recent    = $recent;
         include REVIEWLY_PLUGIN_DIR . 'admin/views/page-dashboard.php';
     }
 
@@ -125,18 +131,24 @@ class Reviewly_Admin {
     public static function page_themes() {
         $themes   = Reviewly_Settings::get_themes();
         $settings = Reviewly_Settings::get();
+        // Prefix vars for PrefixAllGlobals compliance in the view.
+        $rvly_themes   = $themes;
+        $rvly_settings = $settings;
         include REVIEWLY_PLUGIN_DIR . 'admin/views/page-themes.php';
     }
 
     /* ---- Fields ---- */
     public static function page_fields() {
         $settings = Reviewly_Settings::get();
+        // Prefix vars for PrefixAllGlobals compliance in the view.
+        $rvly_settings = $settings;
         include REVIEWLY_PLUGIN_DIR . 'admin/views/page-fields.php';
     }
 
     /* ---- Settings ---- */
     public static function page_settings() {
         $settings = Reviewly_Settings::get();
+        $rvly_settings = $settings;
         include REVIEWLY_PLUGIN_DIR . 'admin/views/page-settings.php';
     }
 
@@ -161,7 +173,7 @@ class Reviewly_Admin {
         switch ( $col ) {
             case 'rvly_rating':
                 $r = intval( get_post_meta( $post_id, 'rvly_rating', true ) );
-                echo '<span style="color:#ffc107;">' . str_repeat( '★', $r ) . '</span>';
+                echo '<span style="color:#ffc107;">' . esc_html( str_repeat( '★', $r ) ) . '</span>';
                 break;
             case 'rvly_email':
                 echo esc_html( get_post_meta( $post_id, 'rvly_email', true ) );
@@ -172,7 +184,7 @@ class Reviewly_Admin {
             case 'post_status':
                 $s = get_post_status( $post_id );
                 $label = $s === 'publish' ? '<span style="color:green;">✔ Published</span>' : '<span style="color:orange;">⏳ Pending</span>';
-                echo $label;
+                echo wp_kses( $label, [ 'span' => [ 'style' => [] ] ] );
                 break;
         }
     }

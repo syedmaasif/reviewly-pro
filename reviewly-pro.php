@@ -3,7 +3,7 @@
  * Plugin Name: Reviewly Pro
  * Plugin URI:  https://github.com/syedmaasif/reviewly-pro
  * Description: A fully customizable review collection plugin with multiple UI themes, custom fields, and a powerful dashboard. Works on any WordPress site — services, hospitals, WooCommerce, blogs, and more.
- * Version:     1.0.0
+ * Version:     1.0.4
  * Author:      syedmaasif
  * Author URI:  https://profiles.wordpress.org/syedmaasif/
  * License:     GPL v2 or later
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'REVIEWLY_VERSION',     '1.0.0' );
+define( 'REVIEWLY_VERSION',     '1.0.4' );
 define( 'REVIEWLY_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'REVIEWLY_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'REVIEWLY_PLUGIN_FILE', __FILE__ );

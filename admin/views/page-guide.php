@@ -4,7 +4,7 @@
     <div class="rvly-header">
         <div class="rvly-header-inner">
             <div class="rvly-logo">⭐ Reviewly Pro</div>
-            <div class="rvly-version">v<?php echo REVIEWLY_VERSION; ?></div>
+            <div class="rvly-version">v<?php echo esc_html( REVIEWLY_VERSION ); ?></div>
         </div>
     </div>
 
@@ -21,14 +21,14 @@
                 <div class="rvly-step-number">1</div>
                 <div class="rvly-step-body">
                     <strong>Choose a UI Theme</strong>
-                    <p>Go to <a href="<?php echo admin_url('admin.php?page=reviewly-themes'); ?>">UI Themes</a> and click <em>Activate</em> on whichever style matches your website.</p>
+                    <p>Go to <a href="<?php echo esc_url( admin_url('admin.php?page=reviewly-themes') ); ?>">UI Themes</a> and click <em>Activate</em> on whichever style matches your website.</p>
                 </div>
             </div>
             <div class="rvly-step">
                 <div class="rvly-step-number">2</div>
                 <div class="rvly-step-body">
                     <strong>Set Your Fields</strong>
-                    <p>Go to <a href="<?php echo admin_url('admin.php?page=reviewly-fields'); ?>">Custom Fields</a> and toggle on the fields you want to collect (name, email, phone, etc.).</p>
+                    <p>Go to <a href="<?php echo esc_url( admin_url('admin.php?page=reviewly-fields') ); ?>">Custom Fields</a> and toggle on the fields you want to collect (name, email, phone, etc.).</p>
                 </div>
             </div>
             <div class="rvly-step">
@@ -42,7 +42,7 @@
                 <div class="rvly-step-number">4</div>
                 <div class="rvly-step-body">
                     <strong>Done!</strong>
-                    <p>Visit the front end to see the form. New reviews appear in your <a href="<?php echo admin_url('admin.php?page=reviewly-pro'); ?>">Dashboard</a>.</p>
+                    <p>Visit the front end to see the form. New reviews appear in your <a href="<?php echo esc_url( admin_url('admin.php?page=reviewly-pro') ); ?>">Dashboard</a>.</p>
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
             <li>Email and phone fields are marked <strong>private</strong> by default — they are stored in your database but never shown publicly.</li>
             <li>Mention review collection in your <strong>Privacy Policy</strong>.</li>
             <li>Consider turning on <strong>Require Approval</strong> (in Settings) to moderate reviews before they go live.</li>
-            <li>You can delete any individual review at any time from the <a href="<?php echo admin_url('edit.php?post_type=rvly_review'); ?>">All Reviews</a> page.</li>
+            <li>You can delete any individual review at any time from the <a href="<?php echo esc_url( admin_url('edit.php?post_type=rvly_review') ); ?>">All Reviews</a> page.</li>
         </ul>
     </div>
 

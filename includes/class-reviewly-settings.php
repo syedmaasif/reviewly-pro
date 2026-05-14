@@ -35,39 +35,48 @@ class Reviewly_Settings {
         return $out;
     }
 
-    /** Saves settings from $_POST (sanitised). */
+    /** Saves settings from $_POST (sanitised). Called only after nonce has been
+     *  verified upstream via check_ajax_referer( 'rvly_admin_nonce', 'nonce' ).
+     */
     public static function save_from_post() {
+        // Re-confirm the nonce here so PHPCS can trace the verification.
+        if ( ! check_ajax_referer( 'rvly_admin_nonce', 'nonce', false ) ) {
+            return false;
+        }
+
         $settings = self::get();
 
-        if ( isset( $_POST['active_theme'] ) )
-            $settings['active_theme'] = sanitize_key( $_POST['active_theme'] );
+        if ( isset( $_POST['active_theme'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['active_theme'] = sanitize_key( wp_unslash( $_POST['active_theme'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['require_approval'] ) )
-            $settings['require_approval'] = $_POST['require_approval'] === '1' ? '1' : '0';
+        if ( isset( $_POST['require_approval'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['require_approval'] = ( sanitize_key( wp_unslash( $_POST['require_approval'] ) ) === '1' ) ? '1' : '0'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['accent_color'] ) )
-            $settings['accent_color'] = sanitize_hex_color( $_POST['accent_color'] ) ?: '#e91e63';
+        if ( isset( $_POST['accent_color'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['accent_color'] = sanitize_hex_color( wp_unslash( $_POST['accent_color'] ) ) ?: '#e91e63'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['reviews_per_page'] ) )
-            $settings['reviews_per_page'] = absint( $_POST['reviews_per_page'] ) ?: 12;
+        if ( isset( $_POST['reviews_per_page'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['reviews_per_page'] = absint( wp_unslash( $_POST['reviews_per_page'] ) ) ?: 12; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['show_date'] ) )
-            $settings['show_date'] = $_POST['show_date'] === '1' ? '1' : '0';
+        if ( isset( $_POST['show_date'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['show_date'] = ( sanitize_key( wp_unslash( $_POST['show_date'] ) ) === '1' ) ? '1' : '0'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['show_avatar'] ) )
-            $settings['show_avatar'] = $_POST['show_avatar'] === '1' ? '1' : '0';
+        if ( isset( $_POST['show_avatar'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['show_avatar'] = ( sanitize_key( wp_unslash( $_POST['show_avatar'] ) ) === '1' ) ? '1' : '0'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-        if ( isset( $_POST['redirect_url'] ) )
-            $settings['redirect_url'] = esc_url_raw( $_POST['redirect_url'] );
+        if ( isset( $_POST['redirect_url'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['redirect_url'] = esc_url_raw( wp_unslash( $_POST['redirect_url'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
         // Fields
-        if ( isset( $_POST['fields'] ) && is_array( $_POST['fields'] ) ) {
-            foreach ( $_POST['fields'] as $key => $field ) {
-                $settings['fields'][ sanitize_key( $key ) ] = [
-                    'enabled'     => ! empty( $field['enabled'] ) ? '1' : '0',
-                    'label'       => sanitize_text_field( $field['label'] ?? '' ),
-                    'placeholder' => sanitize_text_field( $field['placeholder'] ?? '' ),
-                    'private'     => ! empty( $field['private'] ) ? '1' : '0',
+        if ( isset( $_POST['fields'] ) && is_array( $_POST['fields'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing
+            $raw_fields = wp_unslash( $_POST['fields'] );
+            foreach ( $raw_fields as $rvly_fkey => $rvly_ffield ) {
+                $settings['fields'][ sanitize_key( $rvly_fkey ) ] = [
+                    'enabled'     => ! empty( $rvly_ffield['enabled'] ) ? '1' : '0',
+                    'label'       => sanitize_text_field( $rvly_ffield['label'] ?? '' ),
+                    'placeholder' => sanitize_text_field( $rvly_ffield['placeholder'] ?? '' ),
+                    'private'     => ! empty( $rvly_ffield['private'] ) ? '1' : '0',
                 ];
             }
         }

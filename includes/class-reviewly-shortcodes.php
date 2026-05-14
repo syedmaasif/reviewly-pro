@@ -46,8 +46,14 @@ class Reviewly_Shortcodes {
         $theme    = $settings['active_theme'] ?? 'modern';
         $accent   = $settings['accent_color'] ?? '#e91e63';
 
+        // Rename to rvly_-prefixed vars so templates satisfy PrefixAllGlobals.
+        $rvly_settings = $settings;
+        $rvly_fields   = $fields;
+        $rvly_theme    = $theme;
+        $rvly_accent   = $accent;
+
         ob_start();
-        $template = REVIEWLY_PLUGIN_DIR . 'templates/form-' . sanitize_key( $theme ) . '.php';
+        $template = REVIEWLY_PLUGIN_DIR . 'templates/form-' . sanitize_key( $rvly_theme ) . '.php';
         if ( ! file_exists( $template ) ) {
             $template = REVIEWLY_PLUGIN_DIR . 'templates/form-modern.php';
         }
@@ -79,7 +85,7 @@ class Reviewly_Shortcodes {
         ];
 
         if ( intval( $atts['rating'] ) > 0 ) {
-            $args['meta_query'] = [ [
+            $args['meta_query'] = [ [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                 'key'     => 'rvly_rating',
                 'value'   => intval( $atts['rating'] ),
                 'compare' => '>=',
@@ -89,8 +95,14 @@ class Reviewly_Shortcodes {
 
         $query = new WP_Query( $args );
 
+        // Rename to rvly_-prefixed vars so templates satisfy PrefixAllGlobals.
+        $rvly_settings = $settings;
+        $rvly_theme    = $theme;
+        $rvly_accent   = $accent;
+        $rvly_query    = $query;
+
         ob_start();
-        $template = REVIEWLY_PLUGIN_DIR . 'templates/list-' . $theme . '.php';
+        $template = REVIEWLY_PLUGIN_DIR . 'templates/list-' . $rvly_theme . '.php';
         if ( ! file_exists( $template ) ) {
             $template = REVIEWLY_PLUGIN_DIR . 'templates/list-modern.php';
         }
